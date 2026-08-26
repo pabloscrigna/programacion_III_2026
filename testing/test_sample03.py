@@ -1,21 +1,34 @@
+import os
+
 import pytest
 
 from sample03 import cuenta_caracteres, frase_capitalize, leer_archivo, separar
-
-
-def test_leer_archivo_OK():
-
-    with open("file_dummy.txt", "w") as file:
-        file.write("Hola mundo!!!")
-
-    texto = "Hola mundo!!!"
-    assert leer_archivo("file_dummy.txt") == texto
 
 
 # fixture
 @pytest.fixture
 def get_frase():
     return "chau mundo"
+
+
+@pytest.fixture(autouse=True, scope="module")
+def crear_archivo_prueba():
+    filename = "file_dummy.txt"
+    with open(filename, "w") as file:
+        file.write("Hola mundo!!!")
+
+    yield
+
+    os.remove(filename)
+
+
+def test_leer_archivo_OK():
+
+    # with open("file_dummy.txt", "w") as file:
+    #     file.write("Hola mundo!!!")
+
+    texto = "Hola mundo!!!"
+    assert leer_archivo("file_dummy.txt") == texto
 
 
 def test_separar_OK(get_frase):
