@@ -6,8 +6,8 @@ from pymongo import MongoClient
 
 load_dotenv()
 
-DB_NAME = "iades-2026"
-DB_COLLECTION = "sociedades"
+DB_NAME = "kansai"
+DB_COLLECTION = "accesorios"
 
 
 def db_connect(mongo_uri):
@@ -42,24 +42,64 @@ def main():
     for indice, db in enumerate(lista_db):
         print(f"{indice}. {db}")
 
-    # Conectarme a una base
+    # Conectarme a una base -- kansai
     db = client[DB_NAME]
 
-    # Listar las colecciones
+    # Listar las colecciones --
     colecciones = db.list_collection_names()
     print("DB: ", DB_NAME)
     print("Colecciones")
     for indice, coleccion in enumerate(colecciones):
         print(f"{indice}. {coleccion}")
 
-    db_index = int(input("ingrese la DB a consultar: "))
-    print("El usuario quiere consultar la DB: ", lista_db[db_index])
-    db = client[lista_db[db_index]]
+    # coleccion accesorios
+    db = db[DB_COLLECTION]
 
-    colecciones = db.list_collection_names()
-    print("Colecciones")
-    for indice, coleccion in enumerate(colecciones):
-        print(f"{indice}. {coleccion}")
+    # busca todos los accesorios
+    cursor = db.find()
+
+    for accesorio in cursor:
+        print(accesorio)
+
+    total_accesorios = db.count_documents({})
+    print("total: ", total_accesorios)
+
+    # partNumber = PC1620K00H
+    accesorio = db.find_one({"partNumber": "PC1620K00H"})
+    print(accesorio)
+
+    # partNumber = PC1870K00Z
+    accesorio["partNumber"] = "PC1870K00Z"
+    del accesorio["_id"]
+
+    # insert de un documento
+    # doc_insert = db.insert_one(accesorio)
+
+    # print("doc_insert: ", doc_insert)
+
+    # update
+    new_price = accesorio["price"]
+    response = db.update_one(
+        {"partNumber": "PC1620K00H"}, {"$set": {"price": new_price}}
+    )
+    print("update: ", response)
+
+    accesorios = [
+        {"partNumber": "A", "accesorio": "dummy"},
+        {"partNumber": "B", "accesorio": "dummy"},
+    ]
+
+    doc_insert = db.insert_many(accesorios)
+    print("doc insert: ", doc_insert)
+
+    response = db.update_many({"partNumber": "A"}, {"$set": {"price": new_price}})
+    print("update: ", response)
+
+    doc_deleted = db.delete_one({"partNumber": "A"})
+    print("doc deleted: ", doc_deleted)
+
+    doc_deleted = db.delete_many({"partNumber": "B"})
+    print("doc deleted: ", doc_deleted)
 
 
 if __name__ == "__main__":
