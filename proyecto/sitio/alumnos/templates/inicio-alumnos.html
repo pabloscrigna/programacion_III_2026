@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumnos</title>
+</head>
+<body>
+    {% if id > 20 %}
+        <p>hola {{ nombre }}!!!</p>
+        <h1>Fecha y hora: {{ fecha_hora }}</h1>
+        <h2>id: {{ id }}</h2>
+        <h1>notas: {{ notas }}</h3>
+        <ul>
+        {% for nota in notas %}
+            <li>{{ nota }}</li>
+        {% endfor %}
+        </ul>
+    <br>
+    <table>
+  <caption>Ejemplo de tabla</caption>
+  <tr>
+    <td></td>
+    <th>A</th>
+    <th>B</th>
+  </tr>
+  <tr>
+    <th>1</th>
+    <td>A1</td>
+    <td>B1</td>
+  </tr>
+  <tr>
+    <th>2</th>
+    <td>A2</td>
+    <td>B2</td>
+  </tr>
+</table>    
+
+    {% else %}
+        <h2>Falso</h2>
+    {% endif %}
+</body>
+</html>
