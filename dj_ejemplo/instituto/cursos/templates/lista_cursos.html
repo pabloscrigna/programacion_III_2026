@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista los Cursos</title>
+</head>
+<body>
+    <ul>
+    {% for curso in cursos %}
+        <li>
+        <a href="{% url 'cursos:detalle' curso.pk %}"> {{curso.nombre}}</a>
+        </li>
+    {% empty %}
+        <li>No hay cursos disponibles!!</li>
+    {% endfor %}
+    </ul>
+    <a href="{% url 'cursos:crear' %}">Crear</a>
+</body>
+</html>
