@@ -129,3 +129,4 @@ MAILERS = {
 
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "cursos:lista"
+LOGOUT_REDIRECT_URL = "cursos:lista"

@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista los Cursos</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}Listado de Cursos{% endblock %}
+
+
+{% block content %}
     <ul>
     {% for curso in cursos %}
         <li>
@@ -16,5 +14,5 @@
     {% endfor %}
     </ul>
     <a href="{% url 'cursos:crear' %}">Crear</a>
-</body>
-</html>
+
+{% endblock%}

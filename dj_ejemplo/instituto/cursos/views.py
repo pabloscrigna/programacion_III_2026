@@ -1,4 +1,6 @@
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect, get_object_or_404
 
 
@@ -56,3 +58,16 @@ def editar_curso(request, id):
 
     form = CursoForm(instance=curso)
     return render(request, "crear_curso.html", {"tag": "Editar", "form": form})
+
+
+def registro(request):
+
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            usuario = form.save()
+            login(request, usuario)
+            return redirect("cursos:lista")
+
+    form = UserCreationForm()
+    return render(request, "registration/registro.html", {"form": form})

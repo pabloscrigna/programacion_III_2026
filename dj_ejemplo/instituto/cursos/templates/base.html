@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Instituto{% endblock %}</title>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'cursos:lista' %}">Inicio</a>
+        |
+        {% if user.is_authenticated %}
+            Hola, {{ user.username }}
+            <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit">Cerrar sesión</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">Iniciar sesión</a>
+            |
+            <a href="{% url 'register' %}">Registrarse</a>
+        {% endif %}
+    </nav>
+    <hr>
+
+    {% block content %}
+    {% endblock %}
+
+    
+</body>
+</html>
